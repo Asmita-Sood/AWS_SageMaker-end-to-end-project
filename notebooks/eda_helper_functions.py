@@ -62,7 +62,7 @@ def correlation_heatmap(data,
                         figsize=(12, 6),
                         method="spearman",
                         cmap="RdBu"):
-  cm = data.corr(method=method)
+  cm = data.corr(method=method, numeric_only= True)
 
   mask = np.zeros_like(cm, dtype=bool)
   mask[np.triu_indices_from(mask)] = True
