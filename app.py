@@ -259,7 +259,8 @@ preprocessor = Pipeline(steps=[
 ])
 
 # read the training data
-train = pd.read_csv(r"C:\Users\jinni\Desktop\flights-sagemaker-project\data\train.csv")
+#train = pd.read_csv(r"C:\Users\jinni\Desktop\flights-sagemaker-project\data\train.csv")- running on vs code locally
+train = pd.read_csv("train.csv") #for streamlit cloud deployement via github
 X_train = train.drop(columns="price")
 y_train = train.price.copy()
 
@@ -314,7 +315,7 @@ additional_info = st.selectbox(
 	options=X_train.additional_info.unique()
 )
 
-x_new = pd.DataFrame(dict(
+x_new = pd.DataFrame(dict( #user input converted to data frame
 	airline=[airline],
 	date_of_journey=[doj],
 	source=[source],
@@ -336,7 +337,8 @@ if st.button("Predict"): #user clicks predict
 	saved_preprocessor = joblib.load("preprocessor.joblib")
 	x_new_pre = saved_preprocessor.transform(x_new)
 
-	with open(r"C:\Users\jinni\Desktop\flights-sagemaker-project\model\xgboost-model", "rb") as f:
+	#with open(r"C:\Users\jinni\Desktop\flights-sagemaker-project\model\xgboost-model", "rb") as f:- for VS code local server
+	with open("xgboost-model", "rb") as f: #for streamlit cloud deployement via github
 		model = pickle.load(f)
 	x_new_xgb = xgb.DMatrix(x_new_pre)
 	pred = model.predict(x_new_xgb)[0]
